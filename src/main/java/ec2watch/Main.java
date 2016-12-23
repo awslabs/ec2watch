@@ -15,7 +15,6 @@
 
 package ec2watch;
 
-import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -31,10 +30,6 @@ public class Main {
 
     options = new Options();
 
-    Option instanceIdOption = new Option("i", true, "Instance ID");
-    instanceIdOption.setRequired(true);
-    options.addOption(instanceIdOption);
-
     Option intervalOption = new Option("t", true, "Interval in seconds");
     options.addOption(intervalOption);
 
@@ -46,12 +41,23 @@ public class Main {
 
     CommandLineParser parser = new DefaultParser();
     CommandLine cmd = null;
-
+    
+    String instanceId = null;
+    
     try {
       cmd = parser.parse(options, args);
-    } catch (MissingOptionException moe) {
+      if(args.length >= 1) {
+        instanceId = args[args.length - 1];
+        if(!instanceId.startsWith("i-")) {
+          instanceId = null;
+        }
+      }
+      if(instanceId == null) {
+        throw new RuntimeException("Missing INSTANCE ID");
+      }
+    } catch (Exception e) {
 
-      System.err.println(moe.getMessage());
+      System.err.println(e.getMessage());
       printHelp();
       System.exit(1);
     }
@@ -61,7 +67,6 @@ public class Main {
       System.exit(1);
     }
 
-    String instanceId = cmd.getOptionValue("i");
     String region = cmd.getOptionValue("r");
     String interval = cmd.getOptionValue("t");
 
@@ -72,6 +77,6 @@ public class Main {
 
   private static void printHelp() {
     HelpFormatter helpFormatter = new HelpFormatter();
-    helpFormatter.printHelp("java -jar ec2watch.jar -i <instance id> [<options>]", options);
+    helpFormatter.printHelp("java -jar ec2watch.jar [<options>] INSTANCE_ID", options);
   }
 }

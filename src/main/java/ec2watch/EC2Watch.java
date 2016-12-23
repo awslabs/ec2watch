@@ -70,7 +70,8 @@ class EC2Watch {
 
         Thread.sleep(interval * 1000);
       } catch (Exception e) {
-        e.printStackTrace();
+        // Ignore it
+        System.out.print("x");
       }
 
     }
