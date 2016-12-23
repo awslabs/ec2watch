@@ -15,3 +15,4 @@ Example:  java -jar ec2watch.jar i-40369340
 
 ## Demo
 
+![ec2watch demo](/images/screencap.gif)
