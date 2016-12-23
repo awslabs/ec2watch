@@ -10,7 +10,7 @@ usage: java -jar ec2watch.jar [<options>] INSTANCE_ID
  -r <arg>   AWS Region
 ```
 
-Example:  java -jar ec2watch.jar i-40369340
+Example:  java -jar ec2watch.jar i-04e2556b3868fdb6d
 
 
 ## Demo
